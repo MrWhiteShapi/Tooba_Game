@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/logo_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_toobalog_green" />
+
+    <TextView
+        android:id="@+id/game_logo_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_one"
+        android:text="GAME"
+        android:textColor="@color/main_colore"
+        android:textSize="48sp"
+        app:layout_constraintTop_toBottomOf="@+id/logo_first"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent   "
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_logo_first">
+
+        <Button
+            android:id="@+id/bt_logIn_SignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:background="@drawable/round_button_2"
+            android:elevation="25dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:onClick="toSignUp"
+            android:text="Зарегистрироваться"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/main_colore" />
+
+        <Button
+            android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/round_button_2"
+            android:elevation="25dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:onClick="toSignIn"
+            android:text="Авторизоваться"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/main_colore" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

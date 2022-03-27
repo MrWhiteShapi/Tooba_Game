@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MasterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/tool_bar"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp">
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/tool_bar"
+        android:layout_height="54dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/img_listOwn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintEnd_toStartOf="@+id/img_LeadBoard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_list_black" />
+
+        <ImageView
+            android:id="@+id/img_LeadBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintEnd_toStartOf="@+id/img_Map"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_lead_board_black" />
+
+        <ImageView
+            android:id="@+id/img_Map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_map_black" />
+
+        <ImageView
+            android:id="@+id/img_Account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toEndOf="@+id/img_Map"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_account_black" />
+
+        <ImageView
+            android:id="@+id/img_Donat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toEndOf="@+id/img_Account"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_credit_card_black" />
+
+        <TextView
+            android:id="@+id/txt_map_icon_master"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Карта"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/img_Map"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/img_Map"
+            app:layout_constraintTop_toBottomOf="@+id/img_Map" />
+
+        <TextView
+            android:id="@+id/txt_lead_board_icon_master"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="Рейтинг"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/img_LeadBoard"
+            app:layout_constraintStart_toStartOf="@+id/img_LeadBoard"
+            app:layout_constraintTop_toBottomOf="@+id/img_LeadBoard" />
+
+        <TextView
+            android:id="@+id/txt_own_icon_master"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Имущество"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:fontFamily="@font/montserrat"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/img_listOwn"
+            app:layout_constraintStart_toStartOf="@+id/img_listOwn"
+            app:layout_constraintTop_toBottomOf="@+id/img_listOwn" />
+
+        <TextView
+            android:id="@+id/txt_account_icon_master"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Аккаунт"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:fontFamily="@font/montserrat"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/img_Account"
+            app:layout_constraintStart_toStartOf="@+id/img_Account"
+            app:layout_constraintTop_toBottomOf="@+id/img_Account" />
+
+        <TextView
+            android:id="@+id/txt_donat_icon_master"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Донат"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:fontFamily="@font/montserrat"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="@+id/img_Donat"
+            app:layout_constraintStart_toStartOf="@+id/img_Donat"
+            app:layout_constraintTop_toBottomOf="@+id/img_Donat" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

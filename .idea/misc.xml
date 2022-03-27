@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/circle_button.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ed_style.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_credit_card_base.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_credit_card_black.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_currency.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_discard_button.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_done_edit_button.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_edit.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_edit_button.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_launcher_background.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_list_black.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_list_white.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_to_account_black.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_to_account_white.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_toobalog_green.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_toobalogo.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/item_leaderboard.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/outline_login_20.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/radius.xml" value="0.1828125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/radius_button.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_button.xml" value="0.1828125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_button1.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_button_2.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_layout_leader_board.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_leaderboard.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_change_password.xml" value="0.4" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_master.xml" value="0.2" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_sign_in.xml" value="0.536" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_sign_up.xml" value="0.536" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_splahs.xml" value="0.6" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_account.xml" value="0.264" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_donat.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_leader_board.xml" value="0.264" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_list_own.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/item_builds.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/item_leaderboard.xml" value="0.536" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

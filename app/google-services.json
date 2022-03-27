@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "767423959213",
+    "project_id": "tooba-game",
+    "storage_bucket": "tooba-game.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767423959213:android:8db90fad8b23d8f250b624",
+        "android_client_info": {
+          "package_name": "com.example.toobagame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767423959213-od7l2efa3tqqb6vldtmtenre35f210c8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_0a3j68ZuCr78hSqQaMPeU3PvJt3Crg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767423959213-od7l2efa3tqqb6vldtmtenre35f210c8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

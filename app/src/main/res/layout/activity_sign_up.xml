@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back"
+    tools:context=".Sign_up_activity">
+
+
+    <ImageView
+        android:id="@+id/logo_first_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_toobalog_green" />
+
+    <TextView
+        android:id="@+id/game_logo_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_one"
+        android:text="GAME"
+        android:textColor="@color/main_colore"
+        android:textSize="48sp"
+        app:layout_constraintTop_toBottomOf="@+id/logo_first_sign_up"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent   "
+        />
+
+    <EditText
+        android:id="@+id/name_edit_sign_up"
+        android:layout_width="240dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/main_colore"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:hint="name"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_logo_first" />
+
+    <EditText
+        android:id="@+id/email_edit_sign_up"
+        android:layout_width="240dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/main_colore"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:hint="email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_edit_sign_up" />
+
+    <EditText
+        android:id="@+id/password_edit_sign_up"
+        android:layout_width="240dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/main_colore"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_edit_sign_up" />
+
+    <Button
+        android:id="@+id/bt_logIn_SignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/round_button_2"
+        android:elevation="25dp"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:onClick="signUp_listener"
+        android:text="Зарегистрироваться"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:backgroundTint="@color/main_colore"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit_sign_up" />
+
+    <Button
+        android:id="@+id/bt_logOut_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_button_2"
+        android:fontFamily="@font/montserrat"
+        android:onClick="toMainActivity"
+        android:text="Выйти"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:backgroundTint="@color/main_colore"
+        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_logIn_SignUp" />
+
+    <Button
+        android:id="@+id/bt_logIn_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_button_2"
+        android:fontFamily="@font/montserrat"
+        android:onClick="toMasterActivity"
+        android:text="Войти"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:backgroundTint="@color/main_colore"
+        app:layout_constraintHorizontal_bias="0.732"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_logIn_SignUp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
