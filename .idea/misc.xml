@@ -16,6 +16,7 @@
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_launcher_background.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_list_black.xml" value="0.2703125" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_list_white.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_naviagot_button.xml" value="0.2703125" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_to_account_black.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_to_account_white.xml" value="0.2703125" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/ic_toobalog_green.xml" value="0.2703125" />
@@ -29,6 +30,7 @@
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_button_2.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_layout_leader_board.xml" value="0.2703125" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_leaderboard.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/drawable/round_navigator_button.xml" value="0.2703125" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_account.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_change_password.xml" value="0.4" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/activity_main.xml" value="0.4" />
@@ -41,7 +43,7 @@
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_donat.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_leader_board.xml" value="0.264" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_list_own.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_map.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/fragment_map.xml" value="0.264" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/item_builds.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Mr.White/AndroidStudioProjects/ToobaGame/app/src/main/res/layout/item_leaderboard.xml" value="0.536" />
       </map>

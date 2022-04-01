@@ -1,4 +1,5 @@
 package com.example.toobagame;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,19 +39,17 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
-    private  String email, name, password, age, gender, balance, exp, old_name;
+    private String email, name, password, age, gender, balance, exp, old_name;
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference mRef;
     private List<String> genders = new ArrayList<>();
-    private EditText ed_NameAccount,ed_EmailAccount, ed_PasswordAccount, ed_AgeAccount;
+    private EditText ed_NameAccount, ed_EmailAccount, ed_PasswordAccount, ed_AgeAccount;
     private TextView txt_BalanceAccount, txt_RespectAccount, txt_balance, txt_raspect;
     private Spinner spinnerAccount;
     private ConstraintLayout lay_ConstraitEditButton, lay_LogOutConstraiteAccount;
     private ImageView img_Avatar, img_Negative, img_Positive;
-    private  boolean ARE_ADITING = false;
-
-
+    private boolean ARE_ADITING = false;
 
 
     @Override
@@ -64,11 +63,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         genders.add(2, "Female");
     }
 
-    private void changeDataListener(){
+    private void changeDataListener() {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds: snapshot.getChildren()) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     User user = ds.getValue(User.class);
                     ed_NameAccount.setText(user.getName());
                     old_name = ed_NameAccount.getText().toString();
@@ -95,21 +94,20 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         //Определение всех виджетов фрагмента начало
-        img_Negative =  (ImageView) view.findViewById(R.id.img_negative);
+        img_Negative = (ImageView) view.findViewById(R.id.img_negative);
         img_Positive = (ImageView) view.findViewById(R.id.img_positive);
         img_Avatar = (ImageView) view.findViewById(R.id.img_Avatar);
 
         ed_NameAccount = (EditText) view.findViewById(R.id.edit_NameAccount);
         ed_EmailAccount = (EditText) view.findViewById(R.id.edit_EmailAccount);
         ed_PasswordAccount = (EditText) view.findViewById(R.id.edit_PasswordAccount);
-        ed_AgeAccount= (EditText) view.findViewById(R.id.ed_AgeAccount);
+        ed_AgeAccount = (EditText) view.findViewById(R.id.ed_AgeAccount);
 
         txt_balance = (TextView) view.findViewById(R.id.txt_Balance);
         txt_raspect = (TextView) view.findViewById(R.id.txxt_Experience);
@@ -130,9 +128,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         return view;
     }
-    
+
     //Изменить кликабельность view в Account
-    private void transViewAccount(boolean flag){
+    private void transViewAccount(boolean flag) {
         ed_NameAccount.setEnabled(flag);
         ed_EmailAccount.setEnabled(flag);
         ed_PasswordAccount.setEnabled(flag);
@@ -141,8 +139,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void onEditLayout(){
-        if(ARE_ADITING == false) {
+    private void onEditLayout() {
+        if (ARE_ADITING == false) {
             email = ed_EmailAccount.getText().toString();
             name = ed_NameAccount.getText().toString();
             password = ed_PasswordAccount.getText().toString();
@@ -160,7 +158,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
             img_Negative.setImageResource(R.drawable.ic_clear);
             img_Positive.setImageResource(R.drawable.ic_edit);
-        }else if (ARE_ADITING == true){
+        } else if (ARE_ADITING == true) {
             transViewAccount(false);
             ARE_ADITING = false;
             txt_raspect.setVisibility(View.VISIBLE);
@@ -175,8 +173,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-
     private void onRealtimeDatabaseChange() {
         database.getReference("User").child(old_name).removeValue();
         String key = database.getReference("User").child(name).push().getKey();
@@ -184,7 +180,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 spinnerAccount.getSelectedItem().toString(), ed_AgeAccount.getText().toString(), txt_BalanceAccount.getText().toString(), txt_RespectAccount.getText().toString());
         Map<String, Object> userValues = newUser.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/"+ed_NameAccount.getText().toString() +"/", userValues);
+        childUpdates.put("/" + ed_NameAccount.getText().toString() + "/", userValues);
         database.getReference("User").updateChildren(childUpdates);
         changeDataListener();
     }
@@ -193,7 +189,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         auth.getCurrentUser().updateEmail(ed_EmailAccount.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Log.d("My_App", "Почта изменена");
                 }
             }
@@ -201,18 +197,18 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         auth.getCurrentUser().updatePassword(ed_PasswordAccount.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Log.d("My_App", "Парoль изменен");
                 }
             }
         });
     }
 
-    private void onLogOutLayout(){
-        if(ARE_ADITING == false){
+    private void onLogOutLayout() {
+        if (ARE_ADITING == false) {
             System.out.println();
             showAlertWithTwoButton();//Код для всплывающего окна предупреждения
-        }else{
+        } else {
             ed_NameAccount.setText(name);
             ed_EmailAccount.setText(email);
             ed_PasswordAccount.setText(password);
@@ -227,7 +223,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.lay_ConstraitEditButton:
                 Toast.makeText(getContext(), "Change profile enabled", Toast.LENGTH_SHORT).show();
                 onEditLayout();
@@ -239,19 +235,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void showDialog(){
+    private void showDialog() {
 
     }
 
 
-
-
-
-
-
-
-
-    public void showAlertWithTwoButton(){
+    public void showAlertWithTwoButton() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         // Указываем Title
         alertDialog.setTitle("Предупреждение");
@@ -263,7 +252,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         // Обработчик на нажатие ДА
         alertDialog.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 auth.signOut();
                 MasterActivity masterActivity = new MasterActivity();
                 masterActivity.onBackMainActivity();

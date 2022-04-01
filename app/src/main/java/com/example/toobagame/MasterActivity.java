@@ -16,14 +16,16 @@ public class MasterActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
+        init();
         //Поставить первым фрагмент с картой
+        img_Map.setImageResource(R.drawable.ic_map_green);
         MapFragment mapFragment = new MapFragment();
         FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
         ft4.replace(R.id.container, mapFragment);
         ft4.commit();
-        init();
     }
-    private void init(){
+
+    private void init() {
         img_Account = findViewById(R.id.img_Account);
         img_Donat = findViewById(R.id.img_Donat);
         img_LeadBoard = findViewById(R.id.img_LeadBoard);
@@ -38,7 +40,7 @@ public class MasterActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    public void onBackMainActivity(){
+    public void onBackMainActivity() {
         Intent toBackMainActivity = new Intent(MasterActivity.this, MainActivity.class);
         MasterActivity.this.startActivity(toBackMainActivity);
         MasterActivity.this.finish();
@@ -47,7 +49,7 @@ public class MasterActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_Account:
                 //Изменение выбранной иконки
                 img_ListOwn.setImageResource(R.drawable.ic_list_black);
