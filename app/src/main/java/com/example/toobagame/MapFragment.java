@@ -3,6 +3,7 @@ package com.example.toobagame;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.Bundle;
@@ -19,7 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 import com.yandex.mapkit.Animation;
@@ -35,6 +45,7 @@ import com.yandex.mapkit.location.LocationStatus;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.CompositeIcon;
 import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.user_location.UserLocationLayer;
@@ -42,17 +53,21 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener;
 import com.yandex.mapkit.user_location.UserLocationView;
 import com.yandex.runtime.image.ImageProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
 public class MapFragment extends Fragment {
+
+
     private static final double DESIRED_ACCURACY = 0;
     private static final long MINIMAL_TIME = 0;
     private static final double MINIMAL_DISTANCE = 50;
     private static final boolean USE_IN_BACKGROUND = false;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int COMFORTABLE_ZOOM_LEVEL = 18;
+    private static final String PATH_TO_BUILD = "Build";
 
 
 // _________________________________________________________________________________________________
@@ -62,10 +77,18 @@ public class MapFragment extends Fragment {
     private UserLocationLayer userLocationLayer;
     private LocationManager locationManager;
     private LocationListener myLocationListener;
-    private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
+    private MapObjectCollection mapObjects;
     private Point myLocation;
+
+    private List<Build> builds;
+    private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
     private boolean flag_init = false;
     private ConstraintLayout search_me;
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private FirebaseDatabase database;
+    private DatabaseReference mRef;
 
 
 // _________________________________________________________________________________________________
@@ -92,7 +115,7 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         mapView = (MapView) view.findViewById(R.id.mapview);
-        mapView.getMap().setRotateGesturesEnabled(false);
+        mapView.getMap().setRotateGesturesEnabled(true);
         mapView.getMap().move(new CameraPosition(new Point(42.963613, 47.476902), 14, 0, 0));//Координаты махачкалы
         search_me = (ConstraintLayout) view.findViewById(R.id.lay_search_me);
         search_me.setOnClickListener(new View.OnClickListener() {
@@ -105,13 +128,17 @@ public class MapFragment extends Fragment {
             }
         });
         locationManager = MapKitFactory.getInstance().createLocationManager();
-
+        builds = new ArrayList<>();
         MapKit mapKit = MapKitFactory.getInstance();
         userLocationLayer = mapKit.createUserLocationLayer(mapView.getMapWindow());
         userLocationLayer.setVisible(true);
         userLocationLayer.setHeadingEnabled(true);
+        database = FirebaseDatabase.getInstance();
+        mRef = database.getReference("Build");
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
-        if (checkLocationPermission()) {//Проверка разрешения
+        if (checkLocationPermission() ) {//Проверка разрешения
             locationManager = MapKitFactory.getInstance().createLocationManager();
             myLocationListener = new LocationListener() {//При наличии разрешения при каждой загрузки карты камера будет перемещаться на местоположение пользователя
                 @Override
@@ -190,6 +217,7 @@ public class MapFragment extends Fragment {
         mapView.onStart();
         MapKitFactory.getInstance().onStart();
         subscribeToLocationUpdate();
+        readDataBuilds();
     }
 
 
@@ -205,5 +233,27 @@ public class MapFragment extends Fragment {
             locationManager.subscribeForLocationUpdates(DESIRED_ACCURACY, MINIMAL_TIME, MINIMAL_DISTANCE, USE_IN_BACKGROUND, FilteringMode.OFF, myLocationListener);
         }
     }
+
+    private void  readDataBuilds(){
+        int[] point = new int[2];
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    Build build = ds.getValue(Build.class);
+                    builds.add(build);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("My_App", String.valueOf(error));
+                Toast.makeText(getActivity(), "Read data failed", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+    }
+
 
 }

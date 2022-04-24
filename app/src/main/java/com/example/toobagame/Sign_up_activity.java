@@ -56,12 +56,12 @@ public class Sign_up_activity extends AppCompatActivity {
     }
 
     public void signUp_listener(View view) {
-        flagnew = sendEmailVer();
-        if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString()) && !TextUtils.isEmpty(ed_Name.getText().toString()) && flagnew == true){
+        if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString()) && !TextUtils.isEmpty(ed_Name.getText().toString())){
             mAuth.createUserWithEmailAndPassword(ed_Email.getText().toString(), ed_Password.getText().toString() ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    sendEmailVer();
                     onSave();
                     Toast.makeText(getApplicationContext(), "User SignUp Successful", Toast.LENGTH_SHORT).show();
                 }else {
@@ -98,10 +98,10 @@ public class Sign_up_activity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Check your Mail to verificate your Email", Toast.LENGTH_SHORT).show();
-                    flag[0] = true;
+//                    flag[0] = true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Check your Mail to verificate your Email", Toast.LENGTH_SHORT).show();
-                    flag[0] = false;
+//                    flag[0] = false;
                 }
             }
         });

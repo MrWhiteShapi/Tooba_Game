@@ -57,7 +57,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
-//        mRef = database.getReference("User");
         genders.add(0, "Empty");
         genders.add(1, "Male");
         genders.add(2, "Female");
