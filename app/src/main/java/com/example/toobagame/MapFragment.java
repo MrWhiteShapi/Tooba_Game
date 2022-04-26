@@ -46,6 +46,7 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.CompositeIcon;
 import com.yandex.mapkit.map.IconStyle;
 import com.yandex.mapkit.map.MapObjectCollection;
+import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.user_location.UserLocationLayer;
@@ -79,8 +80,13 @@ public class MapFragment extends Fragment {
     private LocationListener myLocationListener;
     private MapObjectCollection mapObjects;
     private Point myLocation;
+    private PlacemarkMapObject placeMark;
+    private ImageProvider imageProvider;
 
     private List<Build> builds;
+    public ArrayList<Point> arrPoints = new ArrayList<Point>();
+    public ArrayList<Point> arrgePoints;
+
     private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
     private boolean flag_init = false;
     private ConstraintLayout search_me;
@@ -138,6 +144,8 @@ public class MapFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+
+
         if (checkLocationPermission() ) {//Проверка разрешения
             locationManager = MapKitFactory.getInstance().createLocationManager();
             myLocationListener = new LocationListener() {//При наличии разрешения при каждой загрузки карты камера будет перемещаться на местоположение пользователя
@@ -162,14 +170,14 @@ public class MapFragment extends Fragment {
     }
 
 
-//Код для проверки и запроса разрешение на отслеживанию геолакации
+    //Код для проверки и запроса разрешение на отслеживанию геолакации
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Должны ли мы показать объяснение?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                 // Показать объяснение пользователю *асинхронно* -- не блокировать
@@ -218,6 +226,7 @@ public class MapFragment extends Fragment {
         MapKitFactory.getInstance().onStart();
         subscribeToLocationUpdate();
         readDataBuilds();
+
     }
 
 
@@ -235,7 +244,6 @@ public class MapFragment extends Fragment {
     }
 
     private void  readDataBuilds(){
-        int[] point = new int[2];
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -243,6 +251,7 @@ public class MapFragment extends Fragment {
                     Build build = ds.getValue(Build.class);
                     builds.add(build);
                 }
+                arragePoints();
             }
 
             @Override
@@ -254,6 +263,21 @@ public class MapFragment extends Fragment {
         });
 
     }
+
+
+
+    private void arragePoints(){
+        Point point;
+        for (Build build: builds) {
+            Double x = Double.parseDouble(build.getPoint_x());
+            Double y = Double.parseDouble(build.getPoint_y());
+            point = new Point(x, y);
+            placeMark = mapObjects.addPlacemark(point);
+            imageProvider = ImageProvider.fromResource(getContext(), R.drawable.build_test);
+            placeMark.setIcon(imageProvider);
+        }
+    }
+
 
 
 }

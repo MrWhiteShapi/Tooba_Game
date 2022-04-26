@@ -2,7 +2,7 @@ package com.example.toobagame;
 //Класс Здания
 public class Build {
     private String name;// Отображаемое название здания на карте
-    private String id;
+    private String id_Build;
     private int price;//цена покупки
     private int income;//ежедневный доход
     private int level;// текущий уровень здания
@@ -12,9 +12,9 @@ public class Build {
 
     public Build(){}
 
-    public Build(String name, String id, int price, int income, int level, String owner, String point_x, String point_y) {
+    public Build(String name, String id_Build, int price, int income, int level, String owner, String point_x, String point_y) {
         this.name = name;
-        this.id = id;
+        this.id_Build = id_Build;
         this.price = price;
         this.income = income;
         this.level = level;
@@ -49,11 +49,11 @@ public class Build {
     }
 
     public String getId() {
-        return id;
+        return id_Build;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id_Build = id;
     }
 
     public int getPrice() {
