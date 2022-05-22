@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference mRef;
+    private FirebaseUser currentUser;
+    private User user ;
+    private User thisUser = User.getInstance();
     private List<String> genders = new ArrayList<>();
     private EditText ed_NameAccount, ed_EmailAccount, ed_PasswordAccount, ed_AgeAccount;
     private TextView txt_BalanceAccount, txt_RespectAccount, txt_balance, txt_raspect;
@@ -57,34 +61,52 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+        user = User.getInstance();
+        currentUser = auth.getCurrentUser();
         genders.add(0, "Empty");
         genders.add(1, "Male");
         genders.add(2, "Female");
     }
 
+    private void putDataInSingleton(){
+        thisUser.setBalance(user.getBalance());
+        thisUser.setIncome(user.getIncome());
+        thisUser.setEmail(user.getEmail());
+        thisUser.setAge(user.getAge());
+        thisUser.setExperience(user.getExperience());
+        thisUser.setGender(user.getGender());
+        thisUser.setId(user.getId());
+        thisUser.setName(user.getName());
+        thisUser.setPassword(user.getPassword());
+        thisUser.setProperty((HashMap<String, Object>) user.getProperty());
+    }
+
     private void changeDataListener() {
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    User user = ds.getValue(User.class);
+        database.getReference("User").child(user.getPassword()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    user = snapshot.getValue(User.class);
+                    putDataInSingleton();
                     ed_NameAccount.setText(user.getName());
                     old_name = ed_NameAccount.getText().toString();
                     ed_EmailAccount.setText(user.getEmail());
                     ed_PasswordAccount.setText(user.getEmail());
                     ed_AgeAccount.setText(user.getAge());
-                    txt_BalanceAccount.setText(user.getBalance());
+                    txt_BalanceAccount.setText(Integer.toString(user.getBalance()));
                     txt_RespectAccount.setText(user.getExperience());
-                }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getActivity(), "Read data failed", Toast.LENGTH_SHORT).show();
+
             }
-        };
-        database.getReference("User").addValueEventListener(valueEventListener);
+        });
+
     }
+
+
 
     @Override
     public void onStart() {
@@ -176,7 +198,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         database.getReference("User").child(old_name).removeValue();
         String key = database.getReference("User").child(name).push().getKey();
         User newUser = new User(key, ed_NameAccount.getText().toString(), ed_EmailAccount.getText().toString(), ed_PasswordAccount.getText().toString(),
-                spinnerAccount.getSelectedItem().toString(), ed_AgeAccount.getText().toString(), txt_BalanceAccount.getText().toString(), txt_RespectAccount.getText().toString());
+                spinnerAccount.getSelectedItem().toString(), ed_AgeAccount.getText().toString(), 0, txt_RespectAccount.getText().toString());
         Map<String, Object> userValues = newUser.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/" + ed_NameAccount.getText().toString() + "/", userValues);

@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Sign_up_activity extends AppCompatActivity {
-//    private final int SPLASH_DESPLAY_LENGHT = 5000;
+    //    private final int SPLASH_DESPLAY_LENGHT = 5000;
     private boolean flagnew;
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
@@ -45,6 +45,7 @@ public class Sign_up_activity extends AppCompatActivity {
     public void init(){
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference(USER_KEY);
+        mAuth = FirebaseAuth.getInstance();
         ed_Password = findViewById(R.id.password_edit_sign_up);
         ed_Email = findViewById(R.id.email_edit_sign_up);
         ed_Name = findViewById(R.id.name_edit_sign_up);
@@ -52,21 +53,20 @@ public class Sign_up_activity extends AppCompatActivity {
         bt_Start = findViewById(R.id.bt_logIn_signUp);
         bt_Start.setClickable(false);
         bt_Exit = findViewById(R.id.bt_logOut_signUp);
-        mAuth = FirebaseAuth.getInstance();
     }
 
     public void signUp_listener(View view) {
-        if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString()) && !TextUtils.isEmpty(ed_Name.getText().toString())){
+        flagnew = sendEmailVer();
+        if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString()) && !TextUtils.isEmpty(ed_Name.getText().toString()) ){
             mAuth.createUserWithEmailAndPassword(ed_Email.getText().toString(), ed_Password.getText().toString() ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    sendEmailVer();
-                    onSave();
-                    Toast.makeText(getApplicationContext(), "User SignUp Successful", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getApplicationContext(), "User SignUp failed", Toast.LENGTH_SHORT).show();
-                }
+                    if (task.isSuccessful()){
+                        onSave();
+                        Toast.makeText(getApplicationContext(), "User SignUp Successful", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "User SignUp failed", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }else{
@@ -81,8 +81,12 @@ public class Sign_up_activity extends AppCompatActivity {
         String password = ed_Password.getText().toString();
         if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString())
                 && !TextUtils.isEmpty(ed_Name.getText().toString())){
-            User newUser = new User(id, name, email, password, "empty", "empty", "empty", "empty");
-            myRef.child(name).setValue(newUser);
+            User newUser = new User(id, name, email, password, "empty", "empty", 0, "empty");
+            myRef.child(password).setValue(newUser);
+            User user = User.getInstance();
+            user.setName(name);
+            user.setEmail(email);
+            user.setPassword(password);
         }
 
     }
@@ -91,6 +95,8 @@ public class Sign_up_activity extends AppCompatActivity {
     private boolean sendEmailVer(){
         final boolean[] flag = {false};
         FirebaseUser user = mAuth.getCurrentUser();
+        Log.w("My_App", user.getUid() + " " + user.getEmail() + " " + user.getDisplayName());
+        Log.w("My_App", user.getDisplayName());
         assert user != null;
         bt_Start.setClickable(true);
         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -98,10 +104,10 @@ public class Sign_up_activity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Check your Mail to verificate your Email", Toast.LENGTH_SHORT).show();
-//                    flag[0] = true;
+                    flag[0] = true;
                 }else{
                     Toast.makeText(getApplicationContext(), "Check your Mail to verificate your Email", Toast.LENGTH_SHORT).show();
-//                    flag[0] = false;
+                    flag[0] = false;
                 }
             }
         });
@@ -109,7 +115,6 @@ public class Sign_up_activity extends AppCompatActivity {
     }
 
     public void toMasterActivity(View view) {
-        onSave();
         Intent toMasterActivityIntent = new Intent(Sign_up_activity.this, MasterActivity.class);
         Sign_up_activity.this.startActivity(toMasterActivityIntent);
         Sign_up_activity.this.finish();

@@ -18,10 +18,13 @@ public class MasterActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_master);
         init();
         //Поставить первым фрагмент с картой
-        img_Map.setImageResource(R.drawable.ic_map_green);
-        MapFragment mapFragment = new MapFragment();
+        img_Account.setImageResource(R.drawable.ic_account_green);
+//        img_Map.setImageResource(R.drawable.ic_map_green);
+//        MapFragment mapFragment = new MapFragment();
+        AccountFragment accountFragment = new AccountFragment();
         FragmentTransaction ft4 = getSupportFragmentManager().beginTransaction();
-        ft4.replace(R.id.container, mapFragment);
+        ft4.replace(R.id.container, accountFragment);
+//        ft4.replace(R.id.container, mapFragment);
         ft4.commit();
     }
 

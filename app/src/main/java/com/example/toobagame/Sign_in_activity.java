@@ -52,6 +52,9 @@ public class Sign_in_activity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(getApplicationContext(), "User SignIn Successful", Toast.LENGTH_SHORT).show();
+                        User user = User.getInstance();
+                        user.setEmail(ed_Email_signIn.getText().toString());
+                        user.setPassword(ed_Password_signIn.getText().toString());
                         Intent toMasterActivityIntent = new Intent(Sign_in_activity.this, MasterActivity.class);
                         Sign_in_activity.this.startActivity(toMasterActivityIntent);
                         Sign_in_activity.this.finish();

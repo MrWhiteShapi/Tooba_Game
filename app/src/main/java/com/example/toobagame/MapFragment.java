@@ -3,9 +3,7 @@ package com.example.toobagame;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PointF;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,11 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,33 +29,28 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.normal.TedPermission;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.layers.ObjectEvent;
 import com.yandex.mapkit.location.FilteringMode;
 import com.yandex.mapkit.location.Location;
 import com.yandex.mapkit.location.LocationListener;
 import com.yandex.mapkit.location.LocationManager;
 import com.yandex.mapkit.location.LocationStatus;
 import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.CompositeIcon;
-import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.MapObject;
 import com.yandex.mapkit.map.MapObjectCollection;
+import com.yandex.mapkit.map.MapObjectTapListener;
 import com.yandex.mapkit.map.PlacemarkMapObject;
-import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.user_location.UserLocationLayer;
-import com.yandex.mapkit.user_location.UserLocationObjectListener;
-import com.yandex.mapkit.user_location.UserLocationView;
 import com.yandex.runtime.image.ImageProvider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
 
 public class MapFragment extends Fragment {
@@ -84,9 +78,6 @@ public class MapFragment extends Fragment {
     private ImageProvider imageProvider;
 
     private List<Build> builds;
-    public ArrayList<Point> arrPoints = new ArrayList<Point>();
-    public ArrayList<Point> arrgePoints;
-
     private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
     private boolean flag_init = false;
     private ConstraintLayout search_me;
@@ -95,6 +86,7 @@ public class MapFragment extends Fragment {
     private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference mRef;
+    private User thisUser;
 
 
 // _________________________________________________________________________________________________
@@ -105,7 +97,6 @@ public class MapFragment extends Fragment {
             MapKitFactory.setApiKey(MAPKIT_API_KEY);
             MapKitFactory.initialize(getContext());
             flag_init = true;
-        } else {
         }
     }
 
@@ -143,10 +134,10 @@ public class MapFragment extends Fragment {
         mRef = database.getReference("Build");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        mapObjects = mapView.getMap().getMapObjects().addCollection();
 
 
-
-        if (checkLocationPermission() ) {//Проверка разрешения
+        if (checkLocationPermission()) {//Проверка разрешения
             locationManager = MapKitFactory.getInstance().createLocationManager();
             myLocationListener = new LocationListener() {//При наличии разрешения при каждой загрузки карты камера будет перемещаться на местоположение пользователя
                 @Override
@@ -165,9 +156,25 @@ public class MapFragment extends Fragment {
                 }
             };
         }
-
+        mapObjects.addTapListener(mapObjectTapListener);
         return view;
     }
+
+
+    private MapObjectTapListener mapObjectTapListener = new MapObjectTapListener() {
+        @Override
+        public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {
+            Build build = (Build) mapObject.getUserData();
+            if (build.getOwner().equals("empty")) {
+                AlertDialog.Builder free = buildDialog(true, build);
+                free.show();
+            } else {
+
+            }
+
+            return true;
+        }
+    };
 
 
     //Код для проверки и запроса разрешение на отслеживанию геолакации
@@ -203,11 +210,79 @@ public class MapFragment extends Fragment {
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
+
             }
             return false;
         } else {
             return true;
         }
+    }
+
+
+    private AlertDialog.Builder buildDialog(boolean flag, Build build) {
+        AlertDialog.Builder window = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.free_build, null);
+
+        Button buyBuild = (Button) view.findViewById(R.id.buy_button);
+        Button backBuild = (Button) view.findViewById(R.id.back_button);
+
+        TextView nameBuild = (TextView) view.findViewById(R.id.name_build);
+        TextView priceBuild = (TextView) view.findViewById(R.id.price_build);
+        TextView incomeBuild = (TextView) view.findViewById(R.id.income_build);
+
+        nameBuild.setText(build.getName());
+        priceBuild.setText(Integer.toString(build.getPrice()));
+        incomeBuild.setText(Integer.toString(build.getIncome()));
+
+        if (flag) {
+            buyBuild.setText("Купить");
+        } else {
+            buyBuild.setText("Улучшить");
+        }
+
+        buyBuild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flag) {
+                    thisUser = User.getInstance();
+                    int balance = thisUser.getBalance();
+                    int price = build.getPrice();
+                    if (balance >= price) {
+                        HashMap<String, Object> property = thisUser.toMapProperty();
+                        property.put(build.getName(), build.getName());
+                        int result = balance - price;
+                        thisUser.addBuild(build.getName());
+                        thisUser.setBalance(result);
+                        database.getReference("User").child(thisUser.getPassword()).child("balance").setValue(result);
+                        database.getReference("User").child(thisUser.getPassword()).child("property").updateChildren(property);
+                    } else {
+                        Toast.makeText(getActivity(), "Недостаточно средств", Toast.LENGTH_LONG).show();
+                        buyBuild.setClickable(false);
+                    }
+                } else {
+                    buyBuild.setText("Улучшить");
+                    upgradeBuild();
+                }
+
+            }
+        });
+
+        window.setTitle("Купить здание")
+                .setView(view)
+                .create();
+
+        return window;
+
+    }
+
+    private void upgradeBuild() {
+
+    }
+
+    private void buyBuild(String nameBuild, String nameOwner) {
+//        database.getReference("User").child(nameOwner).
     }
 
 
@@ -243,11 +318,11 @@ public class MapFragment extends Fragment {
         }
     }
 
-    private void  readDataBuilds(){
+    private void readDataBuilds() {
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds: snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     Build build = ds.getValue(Build.class);
                     builds.add(build);
                 }
@@ -265,19 +340,18 @@ public class MapFragment extends Fragment {
     }
 
 
-
-    private void arragePoints(){
+    private void arragePoints() {
         Point point;
-        for (Build build: builds) {
+        for (Build build : builds) {
             Double x = Double.parseDouble(build.getPoint_x());
             Double y = Double.parseDouble(build.getPoint_y());
             point = new Point(x, y);
             placeMark = mapObjects.addPlacemark(point);
+            placeMark.setUserData(build);
             imageProvider = ImageProvider.fromResource(getContext(), R.drawable.build_test);
             placeMark.setIcon(imageProvider);
         }
     }
-
 
 
 }
