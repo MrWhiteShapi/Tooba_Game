@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back"
-    tools:context=".Sign_up_activity">
+    tools:context=".View.Activity.Sign_up_activity">
 
 
     <ImageView
@@ -82,57 +82,43 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/email_edit_sign_up" />
 
-    <Button
-        android:id="@+id/bt_logIn_SignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="64dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/round_button_2"
-        android:elevation="25dp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:onClick="signUp_listener"
-        android:text="Зарегистрироваться"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:backgroundTint="@color/main_colore"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_edit_sign_up" />
-
-    <Button
-        android:id="@+id/bt_logOut_signUp"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/round_button_2"
-        android:fontFamily="@font/montserrat"
-        android:onClick="toMainActivity"
-        android:text="Выйти"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:backgroundTint="@color/main_colore"
-        app:layout_constraintHorizontal_bias="0.272"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_logIn_SignUp" />
+        android:layout_marginTop="26dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit_sign_up">
 
-    <Button
-        android:id="@+id/bt_logIn_signUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/round_button_2"
-        android:fontFamily="@font/montserrat"
-        android:onClick="toMasterActivity"
-        android:text="Войти"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:backgroundTint="@color/main_colore"
-        app:layout_constraintHorizontal_bias="0.732"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_logIn_SignUp" />
+        <Button
+            android:id="@+id/bt_logIn_SignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/round_button_2"
+            android:elevation="25dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:onClick="signUp_listener"
+            android:text="Зарегистрироваться"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/main_colore" />
+
+        <Button
+            android:id="@+id/bt_logOut_signUp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/round_button_2"
+            android:fontFamily="@font/montserrat"
+            android:onClick="toMainActivity"
+            android:text="Вернуться"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/main_colore" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

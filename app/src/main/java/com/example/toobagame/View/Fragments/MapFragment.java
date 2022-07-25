@@ -1,4 +1,4 @@
-package com.example.toobagame;
+package com.example.toobagame.View.Fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -20,8 +20,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.toobagame.Model.Build;
+import com.example.toobagame.R;
+import com.example.toobagame.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,7 +51,6 @@ import com.yandex.runtime.image.ImageProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class MapFragment extends Fragment {
@@ -78,7 +78,7 @@ public class MapFragment extends Fragment {
     private ImageProvider imageProvider;
 
     private List<Build> builds;
-    private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
+//    private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
     private boolean flag_init = false;
     private ConstraintLayout search_me;
 
@@ -93,11 +93,11 @@ public class MapFragment extends Fragment {
 
 
     private void initMapKit() {
-        if (flag_init == false) {
-            MapKitFactory.setApiKey(MAPKIT_API_KEY);
-            MapKitFactory.initialize(getContext());
-            flag_init = true;
-        }
+//        if (true) {
+//            MapKitFactory.setApiKey(MAPKIT_API_KEY);
+//            MapKitFactory.initialize(getContext());
+//            flag_init = true;
+//        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.toobagame;
+package com.example.toobagame.Model;
 //Класс Здания
 public class Build {
     private String name;// Отображаемое название здания на карте

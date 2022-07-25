@@ -1,4 +1,4 @@
-package com.example.toobagame;
+package com.example.toobagame.View.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.toobagame.R;
+import com.example.toobagame.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,7 +32,7 @@ public class Sign_up_activity extends AppCompatActivity {
     private String USER_KEY = "User";
 
     private EditText ed_Password, ed_Email, ed_Name;
-    private Button bt_SignUp, bt_Start, bt_Exit;
+    private Button bt_SignUp, bt_Exit;
     public User user;
 
 
@@ -50,27 +52,42 @@ public class Sign_up_activity extends AppCompatActivity {
         ed_Email = findViewById(R.id.email_edit_sign_up);
         ed_Name = findViewById(R.id.name_edit_sign_up);
         bt_SignUp = findViewById(R.id.bt_logIn_SignUp);
-        bt_Start = findViewById(R.id.bt_logIn_signUp);
-        bt_Start.setClickable(false);
         bt_Exit = findViewById(R.id.bt_logOut_signUp);
     }
 
     public void signUp_listener(View view) {
         flagnew = sendEmailVer();
-        if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString()) && !TextUtils.isEmpty(ed_Name.getText().toString()) ){
-            mAuth.createUserWithEmailAndPassword(ed_Email.getText().toString(), ed_Password.getText().toString() ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        onSave();
-                        Toast.makeText(getApplicationContext(), "User SignUp Successful", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(getApplicationContext(), "User SignUp failed", Toast.LENGTH_SHORT).show();
+        String password = ed_Password.getText().toString();
+        String email = ed_Email.getText().toString();
+        if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(ed_Name.getText().toString()) ) {
+            if(checkNumbers(password) && password.length() >= 8){
+                mAuth.createUserWithEmailAndPassword(ed_Email.getText().toString(), ed_Password.getText().toString() ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            onSave();
+                            Toast.makeText(getApplicationContext(), "User SignUp Successful", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(getApplicationContext(), "User SignUp failed", Toast.LENGTH_SHORT).show();
+                            Log.e("My_App", String.valueOf(task.getException()));
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                Toast.makeText(getApplicationContext(), "The password should not contain numbers and longer than 8 characters", Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(getApplicationContext(), "Please entre Email and Password", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean checkNumbers(String password) {
+        if (password.contains("1") || password.contains("2") || password.contains("3") || password.contains("4") ||
+                password.contains("5") || password.contains("6") || password.contains("7") || password.contains("8") ||
+                password.contains("9") || password.contains("0")){
+            return false;
+        }else{
+            return true;
         }
     }
 
@@ -81,12 +98,16 @@ public class Sign_up_activity extends AppCompatActivity {
         String password = ed_Password.getText().toString();
         if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString())
                 && !TextUtils.isEmpty(ed_Name.getText().toString())){
-            User newUser = new User(id, name, email, password, "empty", "empty", 0, "empty");
+            User newUser = new User(id, name, email, password, "empty", "empty", 2000, "empty");
             myRef.child(password).setValue(newUser);
             User user = User.getInstance();
             user.setName(name);
             user.setEmail(email);
             user.setPassword(password);
+
+            Intent toMasterActivityIntent = new Intent(Sign_up_activity.this, MasterActivity.class);
+            Sign_up_activity.this.startActivity(toMasterActivityIntent);
+            Sign_up_activity.this.finish();
         }
 
     }
@@ -98,7 +119,6 @@ public class Sign_up_activity extends AppCompatActivity {
         Log.w("My_App", user.getUid() + " " + user.getEmail() + " " + user.getDisplayName());
         Log.w("My_App", user.getDisplayName());
         assert user != null;
-        bt_Start.setClickable(true);
         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -114,11 +134,7 @@ public class Sign_up_activity extends AppCompatActivity {
         return flag[0];
     }
 
-    public void toMasterActivity(View view) {
-        Intent toMasterActivityIntent = new Intent(Sign_up_activity.this, MasterActivity.class);
-        Sign_up_activity.this.startActivity(toMasterActivityIntent);
-        Sign_up_activity.this.finish();
-    }
+
 
     public void toMainActivity(View view) {
         Intent toMainActivityIntent = new Intent(Sign_up_activity.this, MainActivity.class);

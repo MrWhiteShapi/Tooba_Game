@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MasterActivity">
+    tools:context=".View.Activity.MasterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/action_bar"
@@ -44,20 +44,20 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="48dp"
-            app:layout_constraintEnd_toStartOf="@+id/img_LeadBoard"
+            app:layout_constraintEnd_toStartOf="@+id/img_DashBoard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_list_black" />
 
         <ImageView
-            android:id="@+id/img_LeadBoard"
+            android:id="@+id/img_DashBoard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="48dp"
             app:layout_constraintEnd_toStartOf="@+id/img_Map"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_lead_board_black" />
+            app:srcCompat="@drawable/ic_dashboard" />
 
         <ImageView
             android:id="@+id/img_Map"
@@ -112,9 +112,9 @@
             android:textColor="@color/black"
             android:textSize="10sp"
             android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="@+id/img_LeadBoard"
-            app:layout_constraintStart_toStartOf="@+id/img_LeadBoard"
-            app:layout_constraintTop_toBottomOf="@+id/img_LeadBoard" />
+            app:layout_constraintEnd_toEndOf="@+id/img_DashBoard"
+            app:layout_constraintStart_toStartOf="@+id/img_DashBoard"
+            app:layout_constraintTop_toBottomOf="@+id/img_DashBoard" />
 
         <TextView
             android:id="@+id/txt_own_icon_master"

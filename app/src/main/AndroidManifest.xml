@@ -13,10 +13,10 @@
             android:name=".ActivityChangePassword"
             android:exported="false" />
         <activity
-            android:name=".MasterActivity"
+            android:name=".View.Activity.MasterActivity"
             android:exported="false" />
         <activity
-            android:name=".SplahsActivity"
+            android:name=".View.Activity.SplahsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,13 +25,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Sign_in_activity"
+            android:name=".View.Activity.Sign_in_activity"
             android:exported="false" />
         <activity
-            android:name=".Sign_up_activity"
+            android:name=".View.Activity.Sign_up_activity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".View.Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

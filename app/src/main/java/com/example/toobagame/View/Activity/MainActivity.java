@@ -1,10 +1,12 @@
-package com.example.toobagame;
+package com.example.toobagame.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.toobagame.R;
 
 public class MainActivity extends AppCompatActivity {
 

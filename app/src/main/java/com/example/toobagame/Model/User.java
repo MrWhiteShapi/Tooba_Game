@@ -1,16 +1,9 @@
-package com.example.toobagame;
+package com.example.toobagame.Model;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Exclude;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class User  {
 
@@ -19,7 +12,6 @@ public class User  {
     public User() {
 
     }
-
     public static User getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new User();

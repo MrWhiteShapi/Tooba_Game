@@ -1,10 +1,7 @@
-package com.example.toobagame;
+package com.example.toobagame.View.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,11 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.toobagame.R;
+import com.example.toobagame.Model.User;
+import com.example.toobagame.View.Activity.MasterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -68,7 +66,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         genders.add(2, "Female");
     }
 
-    private void putDataInSingleton(){
+    private void putDataInSingleton(){//Метод для заполения синглтон класса User для использования во всем приложении
         thisUser.setBalance(user.getBalance());
         thisUser.setIncome(user.getIncome());
         thisUser.setEmail(user.getEmail());
@@ -123,7 +121,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         //Определение всех виджетов фрагмента начало
         img_Negative = (ImageView) view.findViewById(R.id.img_negative);
         img_Positive = (ImageView) view.findViewById(R.id.img_positive);
-        img_Avatar = (ImageView) view.findViewById(R.id.img_Avatar);
+        img_Avatar = (ImageView) view.findViewById(R.id.img_ChatAvatarFrom);
 
         ed_NameAccount = (EditText) view.findViewById(R.id.edit_NameAccount);
         ed_EmailAccount = (EditText) view.findViewById(R.id.edit_EmailAccount);
@@ -160,7 +158,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void onEditLayout() {
+    private void onEditLayout() {//Метод включающийся после входа в режим изменения данных
+        //Переводит все TextView в режим изменения
         if (ARE_ADITING == false) {
             email = ed_EmailAccount.getText().toString();
             name = ed_NameAccount.getText().toString();
@@ -195,6 +194,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
 
     private void onRealtimeDatabaseChange() {
+        database.getReference("User").child(thisUser.getPassword()).setValue(thisUser);
         database.getReference("User").child(old_name).removeValue();
         String key = database.getReference("User").child(name).push().getKey();
         User newUser = new User(key, ed_NameAccount.getText().toString(), ed_EmailAccount.getText().toString(), ed_PasswordAccount.getText().toString(),
@@ -256,9 +256,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void showDialog() {
 
-    }
 
 
     public void showAlertWithTwoButton() {
