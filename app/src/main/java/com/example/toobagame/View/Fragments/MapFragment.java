@@ -64,7 +64,6 @@ public class MapFragment extends Fragment {
     public static final int COMFORTABLE_ZOOM_LEVEL = 18;
     private static final String PATH_TO_BUILD = "Build";
 
-
 // _________________________________________________________________________________________________
 
 
@@ -78,6 +77,7 @@ public class MapFragment extends Fragment {
     private ImageProvider imageProvider;
 
     private List<Build> builds;
+    protected   AlertDialog free;
 //    private final String MAPKIT_API_KEY = "69d278ed-05cb-4b84-8f4e-777dadafe483";
     private boolean flag_init = false;
     private ConstraintLayout search_me;
@@ -161,21 +161,21 @@ public class MapFragment extends Fragment {
     }
 
 
-    private MapObjectTapListener mapObjectTapListener = new MapObjectTapListener() {
+    private MapObjectTapListener mapObjectTapListener = new MapObjectTapListener() {//Метод для прослушивания нажатия на обьект на карте
         @Override
-        public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {
+        public boolean onMapObjectTap(@NonNull MapObject mapObject, @NonNull Point point) {//Слушатель
             thisUser = User.getInstance();
             Build build = (Build) mapObject.getUserData();
             assert build != null;
             String owner = build.getOwner();
             String name = thisUser.getName();
-            if (owner.equals("empty")) {
-                AlertDialog.Builder free = buildDialog(true, build);
+            if (owner.equals("empty")) {//Проверка: если отсутсвует владелец
+                free = buildDialog(true, build).create();
                 free.show();
-            } else if(owner.equals(name)){
-                AlertDialog.Builder free = buildDialog(false, build);
+            } else if(owner.equals(name)){//Проверка: если юзер и есть владелец
+                free = buildDialog(false, build).create();
                 free.show();
-            }else{
+            }else{//Проверка: если другой юзер владелец
                 Toast.makeText(getContext(), "Владелец этого здания: " + build.getOwner(), Toast.LENGTH_SHORT).show();
             }
 
@@ -229,12 +229,13 @@ public class MapFragment extends Fragment {
     private AlertDialog.Builder buildDialog(boolean flag, Build build) {
         AlertDialog.Builder window = new AlertDialog.Builder(getActivity());
 
+
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.free_build, null);
 
         Button btn_buyBuild = (Button) view.findViewById(R.id.buy_button);
-        Button backBuild = (Button) view.findViewById(R.id.back_button);
-
+        Button back = (Button) view.findViewById(R.id.back_button);
         TextView nameBuild = (TextView) view.findViewById(R.id.name_build);
         TextView priceBuild = (TextView) view.findViewById(R.id.price_build);
         TextView incomeBuild = (TextView) view.findViewById(R.id.income_build);
@@ -242,12 +243,12 @@ public class MapFragment extends Fragment {
 
 
 
-        if (flag) {
+        if (flag) {//Если покупка здания
             btn_buyBuild.setText("Купить");
             priceBuild.setText(Integer.toString(build.getPrice()));
             incomeBuild.setText(Integer.toString(build.getIncome()));
             window.setTitle("Купить здание");
-        } else {
+        } else {//Если улучшение здания
             btn_buyBuild.setText("Улучшить");
             priceBuild.setText(Double.toString(build.getPrice() * 0.45));
             incomeBuild.setText(Double.toString(build.getIncome() + build.getIncome() * 0.2));
@@ -256,20 +257,14 @@ public class MapFragment extends Fragment {
 
 
         window.setView(view);
-        AlertDialog alert = window.create();
-
-        backBuild.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alert.cancel();
-            }
-        });
+        AlertDialog alert = window.create() ;
 
         btn_buyBuild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (flag) {
                     buyBuild(build);
+
                 } else {
                     upgradeBuild(build);
                 }
@@ -277,47 +272,55 @@ public class MapFragment extends Fragment {
             }
         });
 
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                free.cancel();
+            }
+        });
 
 
         return window;
 
     }
 
-    private void upgradeBuild(Build build) {
+    private void upgradeBuild(Build build) {//Метод для улучшения здания
         int balance = thisUser.getBalance();
         Double price = build.getPrice() * 0.45;
         int income = (int) (build.getIncome() + build.getIncome() * 0.2);
         if(balance >= price){
-            database.getReference("Build").child(build.getName()).child("income").setValue(income);
-            database.getReference("Build").child(build.getName()).child("level").setValue(2);
+            build.setIncome(income); //Сначала идет изменение и запись данных в обьект build для последующей более легкой записи в базу данных
+            build.setLevel(build.getLevel() + 1);
             build.setPrice(build.getPrice() + build.getPrice()/2);
-            database.getReference("Build").child(build.getName()).child("price").setValue(build.getPrice());
+            database.getReference("Build").child(build.getName()).setValue(build);
             database.getReference("User").child(thisUser.getPassword()).child("balance").setValue(thisUser.getBalance());
             thisUser.setBalance((int) (balance - price));
-            build.setIncome(income);
-            build.setLevel(2);
             Toast.makeText(getContext(), "Здание улучшено", Toast.LENGTH_SHORT).show();
+            free.cancel();
         }else{
             Toast.makeText(getContext(), "Недостаточно средств", Toast.LENGTH_SHORT).show();
+            free.cancel();
         }
     }
 
-    private void buyBuild(@NonNull Build build) {
+    private void buyBuild(@NonNull Build build) {//Метод для покупки здания
         int balance = thisUser.getBalance();
         int price = build.getPrice();
         if (balance >= price) {
             HashMap<String, Object> property = thisUser.toMapProperty();
-            property.put(build.getName(), build.getName());
+            property.put(build.getName(), build.getLevel());
             int result = balance - price;
             thisUser.addBuild(build.getName());
             thisUser.setBalance(result);
-            database.getReference("Build").child(build.getName()).child("owner").setValue(thisUser.getName());
             database.getReference("User").child(thisUser.getPassword()).child("balance").setValue(result);
             database.getReference("User").child(thisUser.getPassword()).child("property").updateChildren(property);
+            build.setOwner(thisUser.getName());
+            database.getReference("Build").child(build.getName()).setValue(build);
             Toast.makeText(getActivity(), "Покупка успешно совершена", Toast.LENGTH_LONG).show();
+            free.cancel();
         } else {
             Toast.makeText(getActivity(), "Недостаточно средств", Toast.LENGTH_LONG).show();
+            free.cancel();
         }
     }
 

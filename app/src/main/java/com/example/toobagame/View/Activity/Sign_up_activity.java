@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class Sign_up_activity extends AppCompatActivity {
     //    private final int SPLASH_DESPLAY_LENGHT = 5000;
     private boolean flagnew;
@@ -56,11 +58,12 @@ public class Sign_up_activity extends AppCompatActivity {
     }
 
     public void signUp_listener(View view) {
-        flagnew = sendEmailVer();
+
         String password = ed_Password.getText().toString();
         String email = ed_Email.getText().toString();
         if(!TextUtils.isEmpty(password) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(ed_Name.getText().toString()) ) {
             if(checkNumbers(password) && password.length() >= 8){
+//                sendEmailVer();
                 mAuth.createUserWithEmailAndPassword(ed_Email.getText().toString(), ed_Password.getText().toString() ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -81,7 +84,7 @@ public class Sign_up_activity extends AppCompatActivity {
         }
     }
 
-    private boolean checkNumbers(String password) {
+    private boolean checkNumbers(String password) {//Проверка есть ли в пароле цифры
         if (password.contains("1") || password.contains("2") || password.contains("3") || password.contains("4") ||
                 password.contains("5") || password.contains("6") || password.contains("7") || password.contains("8") ||
                 password.contains("9") || password.contains("0")){
@@ -92,13 +95,14 @@ public class Sign_up_activity extends AppCompatActivity {
     }
 
     private void onSave() {//Заполнение данных по новому зарегестрировавшемуся пользователю по ключу его никнейму
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
         String id = myRef.getKey();
         String email = ed_Email.getText().toString();
         String name = ed_Name.getText().toString();
         String password = ed_Password.getText().toString();
         if(!TextUtils.isEmpty(ed_Password.getText().toString()) && !TextUtils.isEmpty(ed_Email.getText().toString())
                 && !TextUtils.isEmpty(ed_Name.getText().toString())){
-            User newUser = new User(id, name, email, password, "empty", "empty", 2000, "empty");
+            User newUser = new User(hashMap, id, name, email, password, "empty", "empty", 2000, "empty");//Создание обьекта класса пользователя
             myRef.child(password).setValue(newUser);
             User user = User.getInstance();
             user.setName(name);

@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.toobagame.Model.Build;
 import com.example.toobagame.R;
 import com.example.toobagame.Model.User;
 import com.example.toobagame.View.Activity.MasterActivity;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,13 +40,14 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
-    private String email, name, password, age, gender, balance, exp, old_name;
+    private String email, name, password, age, gender, balance, exp, check_password;
+    private String old_password, old_email, old_name, old_age, old_gender;
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference mRef;
     private FirebaseUser currentUser;
     private User user ;
-    private User thisUser = User.getInstance();
+    private User thisUser ;
     private List<String> genders = new ArrayList<>();
     private EditText ed_NameAccount, ed_EmailAccount, ed_PasswordAccount, ed_AgeAccount;
     private TextView txt_BalanceAccount, txt_RespectAccount, txt_balance, txt_raspect;
@@ -59,6 +62,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+        thisUser = User.getInstance();
         user = User.getInstance();
         currentUser = auth.getCurrentUser();
         genders.add(0, "Empty");
@@ -66,32 +70,34 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         genders.add(2, "Female");
     }
 
-    private void putDataInSingleton(){//Метод для заполения синглтон класса User для использования во всем приложении
-        thisUser.setBalance(user.getBalance());
-        thisUser.setIncome(user.getIncome());
-        thisUser.setEmail(user.getEmail());
-        thisUser.setAge(user.getAge());
-        thisUser.setExperience(user.getExperience());
-        thisUser.setGender(user.getGender());
-        thisUser.setId(user.getId());
-        thisUser.setName(user.getName());
-        thisUser.setPassword(user.getPassword());
-        thisUser.setProperty((HashMap<String, Object>) user.getProperty());
+    private void saveChanges(){//Метод для заполения синглтон класса User для использования во всем приложении
+        old_age = (ed_AgeAccount.getText().toString());
+        old_email = (ed_EmailAccount.getText().toString());
+        old_password = (ed_PasswordAccount.getText().toString());
+        old_name = (ed_NameAccount.getText().toString());
+        old_gender = (spinnerAccount.getSelectedItem().toString());
     }
 
-    private void changeDataListener() {
+    private void changeDataListener() {//Чтение в первый раз
         database.getReference("User").child(user.getPassword()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     user = snapshot.getValue(User.class);
-                    putDataInSingleton();
+                    //////Код заполняющий значения класса синглтона User
+                    thisUser.setBalance(user.getBalance());
+                    thisUser.setAge(user.getAge());
+                    thisUser.setEmail(user.getEmail());
+                    thisUser.setPassword(user.getPassword());
+                    thisUser.setName(user.getName());
+                    thisUser.setExperience(user.getExperience());
+                    //////Код заполняющий поля AccountFragment
                     ed_NameAccount.setText(user.getName());
-                    old_name = ed_NameAccount.getText().toString();
                     ed_EmailAccount.setText(user.getEmail());
-                    ed_PasswordAccount.setText(user.getEmail());
+                    ed_PasswordAccount.setText(user.getPassword());
                     ed_AgeAccount.setText(user.getAge());
                     txt_BalanceAccount.setText(Integer.toString(user.getBalance()));
                     txt_RespectAccount.setText(user.getExperience());
+                    old_password = ed_PasswordAccount.getText().toString();
 
             }
 
@@ -168,6 +174,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             gender = spinnerAccount.getSelectedItem().toString();
             balance = txt_BalanceAccount.getText().toString();
             exp = txt_RespectAccount.getText().toString();
+
+            ed_AgeAccount.setHint(age);
+            ed_NameAccount.setHint(name);
+            ed_EmailAccount.setHint(email);
+            ed_PasswordAccount.setHint(password);
+
             ARE_ADITING = true;
 
             transViewAccount(true);
@@ -188,30 +200,30 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             img_Negative.setImageResource(R.drawable.ic_log_out);
             img_Positive.setImageResource(R.drawable.ic_edit_button);
             onFirebaseAuthChange();
-            onRealtimeDatabaseChange();
+            showAlertChangeWithTwoButton();
         }
     }
 
 
     private void onRealtimeDatabaseChange() {
-        database.getReference("User").child(thisUser.getPassword()).setValue(thisUser);
-        database.getReference("User").child(old_name).removeValue();
-        String key = database.getReference("User").child(name).push().getKey();
-        User newUser = new User(key, ed_NameAccount.getText().toString(), ed_EmailAccount.getText().toString(), ed_PasswordAccount.getText().toString(),
-                spinnerAccount.getSelectedItem().toString(), ed_AgeAccount.getText().toString(), 0, txt_RespectAccount.getText().toString());
-        Map<String, Object> userValues = newUser.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/" + ed_NameAccount.getText().toString() + "/", userValues);
-        database.getReference("User").updateChildren(childUpdates);
-        changeDataListener();
+        saveChanges();//__________________________________________
+        user.setAge(old_age); //                                ||
+        user.setEmail(old_email);//                             ||==\ Заполняет синглтон обьект класса User изменнеными данными
+        user.setPassword(old_password);//                       ||==/
+        user.setName(old_name);//                               ||
+        user.setGender(old_gender);//-----------------------------
+        database.getReference("User").child(old_password).removeValue();// удаляет старые данные пользователя
+        database.getReference("User").child(user.getPassword()).setValue(user);//записывает новые
+        onFirebaseAuthChange();
+        Toast.makeText(getContext(), "Данные успешно сохранены", Toast.LENGTH_SHORT).show();
     }
 
-    private void onFirebaseAuthChange() {
+    private void onFirebaseAuthChange() {//Если изменяется или пароль или почта
         auth.getCurrentUser().updateEmail(ed_EmailAccount.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d("My_App", "Почта изменена");
+                     Log.d("My_App", "Почта изменена");
                 }
             }
         });
@@ -255,7 +267,34 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void showAlertChangeWithTwoButton(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        // Указываем Title
+        alertDialog.setTitle("Предупреждение");
+        // Указываем текст сообщение
+        alertDialog.setMessage("Вы уверены что хотите изменить данные?");
+        // задаем иконку
+        alertDialog.setIcon(R.drawable.icon_tooba);
+        alertDialog.setCancelable(false);
 
+        // Обработчик на нажатие ДА
+        alertDialog.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                onRealtimeDatabaseChange();
+            }
+        });
+
+        // Обработчик на нажатие НЕТ
+        alertDialog.setNegativeButton("НЕТ", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Код который выполнится после закрытия окна
+                Toast.makeText(getContext(), "Изменение данных - отменено", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
+            }
+        });
+        // показываем Alert
+        alertDialog.create().show();
+    }
 
 
 

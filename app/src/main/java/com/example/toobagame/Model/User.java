@@ -19,7 +19,7 @@ public class User  {
         return INSTANCE;
     }
 
-    private HashMap<String, Object> property = null;
+    private HashMap<String, Object> property = new HashMap<String, Object>();
     private String income = null;
     private String id;
     public String name;
@@ -72,7 +72,8 @@ public class User  {
         this.experience = experience;
     }
 
-    public User(String id, String name, String email, String password, String gender, String age, int balance, String experience) {
+    public User(HashMap<String, Object> property, String id, String name, String email, String password, String gender, String age, int balance, String experience) {
+        this.property = property;
         this.id = id;
         this.name = name;
         this.email = email;
@@ -163,7 +164,6 @@ public class User  {
         return property;
     }
 
-    public void setProperty(HashMap<String, Object> property) {
-        this.property = property;
+    public void setProperty(HashMap<String, Object> property) { this.property = property;
     }
 }
